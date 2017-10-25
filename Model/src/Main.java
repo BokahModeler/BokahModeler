@@ -10,6 +10,8 @@ import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.system.*;
 
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -33,6 +35,9 @@ public class Main {
 	private boolean win = true;
 	private boolean pressed = false;
     private long window;
+    private GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+    private final int WIDTH = gd.getDisplayMode().getWidth() - 200;
+    private final int HEIGHT = gd.getDisplayMode().getHeight() - 200;
     ArrayList<ArrayList<float[]>> nose = null;
     public Main(){
     	Model model = new Model();
@@ -58,8 +63,7 @@ public class Main {
         glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
   
-        int WIDTH = 1800;
-        int HEIGHT = 1600;
+        
   
         window = glfwCreateWindow(WIDTH, HEIGHT, "Game", NULL, NULL);
         if ( window == NULL )
@@ -176,9 +180,9 @@ public class Main {
         glfwSwapBuffers(window);
         while ( !glfwWindowShouldClose(window)  ) {
             if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1)== GLFW_PRESS&&!pressed){
-        		glfwSetCursorPos(window,1800/2,1600/2);
-        		prevx =900;
-        		prevy =800;
+        		//glfwSetCursorPos(window,HEIGHT,WIDTH/4);
+        		prevx = HEIGHT/2;
+        		prevy = WIDTH/2;
         		pressed = true;
         	}
             else if(!(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1)== GLFW_PRESS)){
