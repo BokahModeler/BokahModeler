@@ -16,6 +16,8 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,6 +27,7 @@ import java.nio.*;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -39,10 +42,14 @@ public class Main {
     private final int WIDTH = gd.getDisplayMode().getWidth() - 200;
     private final int HEIGHT = gd.getDisplayMode().getHeight() - 200;
     ArrayList<ArrayList<float[]>> nose = null;
+    private static JFrame f;
+    private static Loader load;
+    
     public Main(){
     	Model model = new Model();
     	nose = model.getNose();
     }
+    
     public void execute() {
         try {
             init();
@@ -63,9 +70,8 @@ public class Main {
         glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
   
-        
-  
         window = glfwCreateWindow(WIDTH, HEIGHT, "Game", NULL, NULL);
+        
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
   
@@ -99,12 +105,14 @@ public class Main {
     
     private void draw(double x, double y){
     	BufferedImage img = null;
-    	try{
-    		img = ImageIO.read(new File("models/front and side2.png"));
-    	}
-    	catch(IOException e){
-    		System.out.println("nofile");
-    	}
+    	
+    	img = load.getImgFront();
+//    	try{
+//    		img = ImageIO.read(new File("models/front and side2.png"));
+//    	}
+//    	catch(IOException e){
+//    		System.out.println("nofile");
+//    	}
     	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     	glTranslated(0,0,0);//center of model(need to figure out what this is)
     	
@@ -172,14 +180,14 @@ public class Main {
     private void loop() {
     	GL.createCapabilities();
     	glEnable(GL_TEXTURE_2D);
-    	double newX,newY,prevx = 0,prevy = 0;
+    	double newX, newY, prevx = 0, prevy = 0;
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glLoadIdentity();
         draw(0.0,0.0);	//draw first image with no rotation
         glfwSwapBuffers(window);
         while ( !glfwWindowShouldClose(window)  ) {
-            if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1)== GLFW_PRESS&&!pressed){
+            if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1)== GLFW_PRESS && !pressed){
         		//glfwSetCursorPos(window,HEIGHT,WIDTH/4);
         		prevx = HEIGHT/2;
         		prevy = WIDTH/2;
@@ -188,6 +196,7 @@ public class Main {
             else if(!(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1)== GLFW_PRESS)){
             	pressed = false;
             }
+            
         	if(pressed){
         		DoubleBuffer x = BufferUtils.createDoubleBuffer(1);
                 DoubleBuffer y = BufferUtils.createDoubleBuffer(1);
@@ -207,6 +216,19 @@ public class Main {
     
     
     public static void main(String[] args) {
-        new Main().execute();
+
+		//JFrame is the "frame" of the window
+		 f = new JFrame("Load Image Sample");
+
+		f.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		});
+		
+		load = new Loader(f);
+		f.add(load);
+		f.pack();
+		f.setVisible(true);
     }
 }
