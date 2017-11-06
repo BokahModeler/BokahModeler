@@ -53,9 +53,11 @@ public class Main {
     public void execute() {
         try {
             init();
+    		f.setVisible(false);
             loop();
             glfwDestroyWindow(window);
         } finally {
+        	System.exit(0);
             glfwTerminate();
         }
     }
@@ -99,7 +101,6 @@ public class Main {
         }
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
-  
         glfwShowWindow(window);
     }
     

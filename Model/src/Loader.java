@@ -122,6 +122,7 @@ public class Loader extends Component {
 					if (getImgSide() == null) {
 						text.setText("Must load side image");
 					} else {
+						
 						new Main().execute();
 					}
 				}
