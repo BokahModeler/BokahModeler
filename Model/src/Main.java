@@ -240,7 +240,7 @@ public class Main {
             	pressed = false;
             }
             
-            //If key is pressed, and moves, rotate object
+            //If mouse is pressed, and moves, rotate object
         	if(pressed){
         		DoubleBuffer x = BufferUtils.createDoubleBuffer(1);
                 DoubleBuffer y = BufferUtils.createDoubleBuffer(1);
