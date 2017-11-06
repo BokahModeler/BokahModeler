@@ -45,16 +45,27 @@ public class Main {
     private static JFrame f;
     private static Loader load;
     
-    public Main(){
+    /**
+     * Initializes model and pulls in nose coordinates
+     */
+        public Main(){
     	Model model = new Model();
     	nose = model.getNose();
     }
     
+    /**
+     * Main execute method
+     */
     public void execute() {
         try {
+        	//initializes window
             init();
     		f.setVisible(false);
+    		
+    		//Keeps window open
             loop();
+            
+            //Destroys window
             glfwDestroyWindow(window);
         } finally {
         	System.exit(0);
@@ -62,6 +73,9 @@ public class Main {
         }
     }
   
+    /**
+     * Initializes window
+     */
     private void init() {
     	GLFWErrorCallback.createPrint(System.err).set();
   
@@ -72,6 +86,7 @@ public class Main {
         glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
   
+        //Creates window
         window = glfwCreateWindow(WIDTH, HEIGHT, "Game", NULL, NULL);
         
         if ( window == NULL )
@@ -103,10 +118,16 @@ public class Main {
         glfwSwapInterval(1);
         glfwShowWindow(window);
     }
-    
+ 
+    /**
+     * Draws window
+     * @param x
+     * @param y
+     */
     private void draw(double x, double y){
     	BufferedImage img = null;
     	
+    	//Loads image
     	img = load.getImgFront();
 //    	try{
 //    		img = ImageIO.read(new File("models/front and side2.png"));
@@ -121,6 +142,8 @@ public class Main {
     	 
     	glBindTexture(GL_TEXTURE_2D, getTexture(img));//must go before glbegin. will move inside loop once we have an array of textures.
         glBegin(GL_QUADS);
+        
+        //Draws polygons
         for(ArrayList<float[]> polygon: nose){//nose should be calculated in another class//will probably neeed a for loop to get texture
         	float[] topLeft = polygon.get(0);
         	float[] topRight = polygon.get(1);
@@ -138,12 +161,21 @@ public class Main {
         glEnd();
     	
     }
+    
+    /**
+     * Draws texture
+     * @param image
+     * @return textureID
+     */
    public int getTexture(BufferedImage image){//have a texture class
+	   
+	   //Pixel array
 	   int[] pixels = new int[image.getWidth() * image.getHeight()*4];
        pixels = image.getRGB(0, 0, image.getWidth(), image.getHeight(), null, 0, image.getWidth());
 
        ByteBuffer buffer = BufferUtils.createByteBuffer(image.getWidth() * image.getHeight() * 4); //4 for RGBA, 3 for RGB
 
+       //Puts pixels into buffer
        for(int y = 0; y < image.getHeight(); y++){
            for(int x = 0; x < image.getWidth(); x++){
                int pixel = pixels[y * image.getWidth() + x];
@@ -178,15 +210,25 @@ public class Main {
      return textureID;
     }
    
+   /**
+    * Keeps window up
+    */
     private void loop() {
+    	
     	GL.createCapabilities();
     	glEnable(GL_TEXTURE_2D);
     	double newX, newY, prevx = 0, prevy = 0;
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		
+		//Clears buffers
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
         glLoadIdentity();
         draw(0.0,0.0);	//draw first image with no rotation
+        
         glfwSwapBuffers(window);
+        
+        //Checks if mouse is pressed
         while ( !glfwWindowShouldClose(window)  ) {
             if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1)== GLFW_PRESS && !pressed){
         		//glfwSetCursorPos(window,HEIGHT,WIDTH/4);
@@ -198,6 +240,7 @@ public class Main {
             	pressed = false;
             }
             
+            //If key is pressed, and moves, rotate object
         	if(pressed){
         		DoubleBuffer x = BufferUtils.createDoubleBuffer(1);
                 DoubleBuffer y = BufferUtils.createDoubleBuffer(1);
@@ -215,18 +258,23 @@ public class Main {
         }    		
     }
     
-    
+    /**
+     * Main method
+     * @param args
+     */
     public static void main(String[] args) {
 
 		//JFrame is the "frame" of the window
 		 f = new JFrame("Load Image Sample");
 
+		 //Adds a new window listener
 		f.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				System.exit(0);
 			}
 		});
 		
+		//Adds loader to JFrame
 		load = new Loader(f);
 		f.add(load);
 		f.pack();
