@@ -69,7 +69,7 @@ public class Main {
             //Destroys window
             glfwDestroyWindow(window);
         } finally {
-        	System.exit(0);
+        	f.setVisible(true);
             glfwTerminate();
         }
     }
@@ -141,11 +141,17 @@ public class Main {
     	
     	glRotatef(1,(float)y,(float)x,0f);
     	 
+<<<<<<< HEAD
+    	
+=======
     	glBindTexture(GL_TEXTURE_2D, getTexture(img));//must go before glbegin. will move inside loop once we have an array of textures.
         glBegin(GL_QUADS);
         
         //Draws polygons
+>>>>>>> 814e5624f20bed4cb724e3802e308c10d5c8b8b4
         for(ArrayList<float[]> polygon: nose){//nose should be calculated in another class//will probably neeed a for loop to get texture
+        	glBegin(GL_QUADS);
+        	glBindTexture(GL_TEXTURE_2D, getTexture(img));//must go before glbegin. will move inside loop once we have an array of textures.
         	float[] topLeft = polygon.get(0);
         	float[] topRight = polygon.get(1);
         	float[] bottomRight = polygon.get(2);
@@ -158,8 +164,9 @@ public class Main {
         	glVertex3f(bottomRight[0], bottomRight[1], bottomRight[2]);
         	glTexCoord2f(0,1);
         	glVertex3f(bottomLeft[0], bottomLeft[1], bottomLeft[2]);
+        	glEnd();
         }
-        glEnd();
+        
     	
     }
     
@@ -296,4 +303,6 @@ public class Main {
 		f.pack();
 		f.setVisible(true);
     }
+    
 }
+
