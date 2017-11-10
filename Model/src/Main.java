@@ -35,8 +35,9 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 public class Main {
-	private boolean win = true;
-	private boolean pressed = false;
+	private boolean keyUp = false;
+	private boolean keyDown = false;
+	private boolean mousePressed = false;
     private long window;
     private GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
     private final int WIDTH = gd.getDisplayMode().getWidth() - 200;
@@ -230,18 +231,18 @@ public class Main {
         
         //Checks if mouse is pressed
         while ( !glfwWindowShouldClose(window)  ) {
-            if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1)== GLFW_PRESS && !pressed){
+            if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS && !mousePressed){
         		//glfwSetCursorPos(window,HEIGHT,WIDTH/4);
         		prevx = HEIGHT/2;
         		prevy = WIDTH/2;
-        		pressed = true;
+        		mousePressed = true;
         	}
             else if(!(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1)== GLFW_PRESS)){
-            	pressed = false;
+            	mousePressed = false;
             }
             
             //If mouse is pressed, and moves, rotate object
-        	if(pressed){
+        	if(mousePressed){
         		DoubleBuffer x = BufferUtils.createDoubleBuffer(1);
                 DoubleBuffer y = BufferUtils.createDoubleBuffer(1);
         		GLFW.glfwGetCursorPos(window, x, y);
@@ -254,6 +255,21 @@ public class Main {
         		prevx = newX;
         		prevy = newY;
         	}
+        	
+        	//Zoom in
+        	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+        		draw(HEIGHT / 2, WIDTH / 2);
+        		glfwSwapBuffers(window);
+        		glScaled(1.2, 1.2, 1);
+        	}
+        	
+        	//Zoom out
+        	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+        		draw(HEIGHT / 2, WIDTH / 2);
+        		glfwSwapBuffers(window);
+        		glScaled(0.8, 0.8, 0.8);
+        	}
+        	
         	glfwPollEvents();
         }    		
     }

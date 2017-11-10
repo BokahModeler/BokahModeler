@@ -36,6 +36,9 @@ import java.awt.image.*;
 import java.io.*;
 import javax.imageio.*;
 import javax.swing.*;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 /**
  * This class demonstrates how to load an Image from an external file
@@ -101,6 +104,10 @@ public class Loader extends Component {
 	    	text.setText("Side image");
 	    }
 	    text.setEditable(false);
+	    StyledDocument doc = text.getStyledDocument();
+	    SimpleAttributeSet center = new SimpleAttributeSet();
+	    StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+	    doc.setParagraphAttributes(0, doc.getLength(), center, false);
 	    f.getContentPane().add(text);
 		
 	    JButton btnNext = new JButton("Next");
