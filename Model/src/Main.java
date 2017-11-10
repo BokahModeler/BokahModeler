@@ -140,15 +140,10 @@ public class Main {
     	glTranslated(0,0,0);//center of model(need to figure out what this is)
     	
     	glRotatef(1,(float)y,(float)x,0f);
-    	 
-<<<<<<< HEAD
-    	
-=======
     	glBindTexture(GL_TEXTURE_2D, getTexture(img));//must go before glbegin. will move inside loop once we have an array of textures.
         glBegin(GL_QUADS);
         
         //Draws polygons
->>>>>>> 814e5624f20bed4cb724e3802e308c10d5c8b8b4
         for(ArrayList<float[]> polygon: nose){//nose should be calculated in another class//will probably neeed a for loop to get texture
         	glBegin(GL_QUADS);
         	glBindTexture(GL_TEXTURE_2D, getTexture(img));//must go before glbegin. will move inside loop once we have an array of textures.
