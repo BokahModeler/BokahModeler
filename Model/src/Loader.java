@@ -167,7 +167,7 @@ public class Loader extends Component {
 				try {
 					if (!second) {
 						// Supposed to compress image a bit for better performance, if in future does not work, only the line below "Orignal" will be needed.
-						File imgfinal = new File("file.jpg");
+						File imgfinal = new File("Front.jpg");
 						//Orignal
 						img = ImageIO.read(new File(txtPath.getText()));
 						ImageIO.write((RenderedImage) img, "jpg", imgfinal);
@@ -175,7 +175,7 @@ public class Loader extends Component {
 					} 
 					else {
 						// Supposed to compress image a bit for better performance, if in future does not work, only the line below "Orignal" will be needed.
-						File imgfinal2 = new File("file2.jpg");
+						File imgfinal2 = new File("Side.jpg");
 						//Orignal
 						img2 = ImageIO.read(new File(txtPath.getText()));
 						ImageIO.write((RenderedImage) img2, "jpg", imgfinal2);
