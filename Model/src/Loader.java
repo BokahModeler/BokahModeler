@@ -36,6 +36,7 @@ import java.awt.image.*;
 import java.io.*;
 import javax.imageio.*;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
@@ -144,12 +145,17 @@ public class Loader extends Component {
 		btnBrowse.addActionListener(new ActionListener() {
 		      public void actionPerformed(ActionEvent e) {
 		        JFileChooser fileChooser = new JFileChooser();
+		        FileNameExtensionFilter filter = new FileNameExtensionFilter("jpg, png, jpeg, gif, bat, bmp Files", "jpg", "jpeg", "png", "gif", "bat", "bmp" );
 		 
 		        // For Directory
 		        //fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		 
 		        // For File
 		        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		        
+		        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home") + System.getProperty("file.separator") + "Pictures"));
+		        
+		        fileChooser.setFileFilter(filter);
 		 
 		        fileChooser.setAcceptAllFileFilterUsed(false);
 		 
