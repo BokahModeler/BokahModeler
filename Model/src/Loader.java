@@ -166,10 +166,20 @@ public class Loader extends Component {
 		        
 				try {
 					if (!second) {
+						// Supposed to compress image a bit for better performance, if in future does not work, only the line below "Orignal" will be needed.
+						File imgfinal = new File("file.jpg");
+						//Orignal
 						img = ImageIO.read(new File(txtPath.getText()));
+						ImageIO.write((RenderedImage) img, "jpg", imgfinal);
+						img = ImageIO.read(imgfinal);
 					} 
 					else {
+						// Supposed to compress image a bit for better performance, if in future does not work, only the line below "Orignal" will be needed.
+						File imgfinal2 = new File("file2.jpg");
+						//Orignal
 						img2 = ImageIO.read(new File(txtPath.getText()));
+						ImageIO.write((RenderedImage) img2, "jpg", imgfinal2);
+						img2 = ImageIO.read(imgfinal2);
 					}
 					f.repaint();
 				} catch (IOException i) {
