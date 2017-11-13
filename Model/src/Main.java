@@ -35,14 +35,16 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 public class Main {
-	private boolean keyUp = false;
-	private boolean keyDown = false;
 	private boolean mousePressed = false;
+	//window handle
     private long window;
     private GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+    //dimensions
     private final int WIDTH = gd.getDisplayMode().getWidth() - 200;
     private final int HEIGHT = gd.getDisplayMode().getHeight() - 200;
+    //Arraylist for nose coordinates
     ArrayList<ArrayList<float[]>> nose = null;
+    //variables for image loader
     private static JFrame f;
     private static Loader load;
     
@@ -70,6 +72,7 @@ public class Main {
             glfwDestroyWindow(window);
         } finally {
         	f.setVisible(true);
+        	//terminates GLFW
             glfwTerminate();
         }
     }
@@ -78,13 +81,18 @@ public class Main {
      * Initializes window
      */
     private void init() {
+    	//Sets up error callback to print error message in System.err
     	GLFWErrorCallback.createPrint(System.err).set();
   
+    	//Initializes GLFW so that functions will work
         if ( !glfwInit() )
             throw new IllegalStateException("Unable to initialize GLFW");
   
+        //Configure GLFW
         glfwDefaultWindowHints();
+        //Window stays hidden after creation
         glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
+        //Window will be resizable
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
   
         //Creates window

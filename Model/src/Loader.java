@@ -51,7 +51,7 @@ public class Loader extends Component {
 	private BufferedImage img, img2;
 	private JTextField txtPath;
 	private JTextPane text;
-	private static JFrame f;
+//	private static JFrame f;
 	private boolean second = false;
 	
 	/**
@@ -90,7 +90,6 @@ public class Loader extends Component {
 	}
 
 	public Loader (JFrame f) {
-		BufferedImage imgloader = null;
 		
 		txtPath = new JTextField();
 	    txtPath.setBounds(10, 10, 414, 21);
@@ -172,6 +171,7 @@ public class Loader extends Component {
 						img = ImageIO.read(new File(txtPath.getText()));
 						ImageIO.write((RenderedImage) img, "jpg", imgfinal);
 						img = ImageIO.read(imgfinal);
+						f.setBounds(0, 0, img.getWidth(), img.getHeight());
 					} 
 					else {
 						// Supposed to compress image a bit for better performance, if in future does not work, only the line below "Orignal" will be needed.
@@ -180,6 +180,7 @@ public class Loader extends Component {
 						img2 = ImageIO.read(new File(txtPath.getText()));
 						ImageIO.write((RenderedImage) img2, "jpg", imgfinal2);
 						img2 = ImageIO.read(imgfinal2);
+						f.setBounds(0, 0, img2.getWidth(), img2.getHeight());
 					}
 					f.repaint();
 				} catch (IOException i) {
