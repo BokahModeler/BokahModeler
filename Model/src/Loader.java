@@ -53,6 +53,8 @@ public class Loader extends Component {
 	private JTextPane text;
 //	private static JFrame f;
 	private boolean second = false;
+	private JButton btnNext;
+	private JButton btnBrowse;
 	
 	/**
 	 * Getter methods for images
@@ -82,22 +84,40 @@ public class Loader extends Component {
 				img2 = Crop(img2);	//Crops given picture.
 			}
 			g.drawImage(img2, 0, 100, getWidth(), getHeight() - 100, this);
+			txtPath.setBounds(10, 10,  getWidth() - 20, 21);
 		}
 
+		//Sets text/buttons so it moves with images
+		txtPath.setBounds(10, 10, getWidth() - 20, 21);
+		btnBrowse.setBounds(10, 41, (getWidth() - 40) / 3, 23);
+	    text.setBounds(((getWidth() - 40) / 3) + 20, 40, (getWidth() - 40) / 3, 25);
+	    btnNext.setBounds(((getWidth() - 40) * 2 / 3) + 30, 41, (getWidth() - 40) / 3, 23);
 		g.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		getPreferredSize();
 
 	}
 
 	public Loader (JFrame f) {
-		
 		txtPath = new JTextField();
-	    txtPath.setBounds(10, 10, 414, 21);
+		
+//		if (!second && img == null) {
+//			txtPath.setBounds(10, 10, 400, 21);
+//		}
+//		else if (!second) {
+//			txtPath.setBounds(10, 10, img.getWidth(), 21);
+//		}
+//		else if (img2 == null) {
+//			txtPath.setBounds(10, 10, 400, 21);
+//		}
+//		else {
+//			txtPath.setBounds(10, 10, img2.getWidth(), 21);
+//		}
+		
 	    f.getContentPane().add(txtPath);
 	    txtPath.setColumns(10);
 	    
 	    text = new JTextPane();
-	    text.setBounds(150, 40, 150, 25);
+//	    text.setBounds(150, 40, 150, 25);
 	    if (!second){
 	    	text.setText("Front image");
 	    } else {
@@ -110,8 +130,8 @@ public class Loader extends Component {
 	    doc.setParagraphAttributes(0, doc.getLength(), center, false);
 	    f.getContentPane().add(text);
 		
-	    JButton btnNext = new JButton("Next");
-	    btnNext.setBounds(335, 41, 87, 23);
+	    btnNext = new JButton("Next");
+//	    btnNext.setBounds(335, 41, 87, 23);
 	    f.getContentPane().add(btnNext);
 	    btnNext.addActionListener(new ActionListener() {
 	    	public void actionPerformed (ActionEvent e) {
@@ -132,14 +152,15 @@ public class Loader extends Component {
 						second = false;
 						text.setText("Front image");
 						txtPath.setText("");
+						txtPath.setSize(img2.getWidth(), 21);
 						new Main().execute();
 					}
 				}
 			}
 	    });
 	    
-		JButton btnBrowse = new JButton("Browse");
-		btnBrowse.setBounds(10, 41, 87, 23);
+		btnBrowse = new JButton("Browse");
+//		btnBrowse.setBounds(10, 41, 87, 23);
 		f.getContentPane().add(btnBrowse);
 		btnBrowse.addActionListener(new ActionListener() {
 		      public void actionPerformed(ActionEvent e) {
@@ -167,7 +188,7 @@ public class Loader extends Component {
 					if (!second) {
 						// Supposed to compress image a bit for better performance, if in future does not work, only the line below "Orignal" will be needed.
 						File imgfinal = new File("Front.jpg");
-						//Orignal
+						//Original
 						img = ImageIO.read(new File(txtPath.getText()));
 						ImageIO.write((RenderedImage) img, "jpg", imgfinal);
 						img = ImageIO.read(imgfinal);
@@ -176,7 +197,7 @@ public class Loader extends Component {
 					else {
 						// Supposed to compress image a bit for better performance, if in future does not work, only the line below "Orignal" will be needed.
 						File imgfinal2 = new File("Side.jpg");
-						//Orignal
+						//Original
 						img2 = ImageIO.read(new File(txtPath.getText()));
 						ImageIO.write((RenderedImage) img2, "jpg", imgfinal2);
 						img2 = ImageIO.read(imgfinal2);
@@ -199,7 +220,7 @@ public class Loader extends Component {
 	 * change size with the frame.
 	 */
 	public Dimension getPreferredSize() {
-		return new Dimension(700, 300);
+		return new Dimension(450, 300);
 	}
 
 //	public static void main(String[] args) {
