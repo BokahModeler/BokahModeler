@@ -280,6 +280,11 @@ public class Main {
         		glScaled(0.8, 0.8, 0.8);
         	}
         	
+        	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+        		draw(HEIGHT / 2, WIDTH / 2);
+        		glfwSwapBuffers(window);
+        	}
+        	
         	glfwPollEvents();
         }    		
     }

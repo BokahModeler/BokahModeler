@@ -7,6 +7,7 @@ public class Model {
 	ArrayList<ArrayList<float[]>> nose  =new ArrayList<ArrayList<float[]>>();
 	public Model(){
 		createNose();
+		otherSide();
 		//close scanner
 	}
 	public void createNose(){
@@ -34,6 +35,32 @@ public class Model {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Gets the other side of the nose
+	 */
+	public void otherSide() {
+		
+		//Get size of arraylist ahead of time, otherwise we're stuck in endless loop
+		int noseSize = nose.size();
+		
+		for (int i = 0; i < noseSize; i++) {
+			
+			ArrayList<float[]> oldPolygon = nose.get(i);
+			ArrayList<float[]> newPolygon = new ArrayList<float[]>();
+			
+			for (int j = 0; j < 4; j++) {
+				float[] oldVectors = oldPolygon.get(j);
+				
+				//Get vectors and flip them
+				float[] newVectors = {oldVectors[0] * -1, oldVectors[1], oldVectors[2]};
+				newPolygon.add(newVectors);
+			}
+			
+			nose.add(newPolygon);
+		}
+	}
+	
 	public ArrayList<ArrayList<float[]>> getNose(){
 		return nose;
 	}
